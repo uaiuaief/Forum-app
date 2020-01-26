@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+    <section>
+        <div class="content-container">
+            {% if current_user.is_authenticated and current_user.permission_level >= 100 %}
+                <a class="add-button text-md2" href="{{ url_for('add_category') }}">+ Add Category</a>
+
+            {% endif %}
+            {%  for category in categories %}
+                <div class="category">
+                    <div class="category-header text-md">
+                        <a class="category-title" href="#{{ category.title }}" id="{{ category.title }}">{{ category.title }}</a>
+                        {% if current_user.is_authenticated and current_user.permission_level >= 100 %}
+                            <a class="button-close" href="{{ url_for('delete_category', category_title=category.title) }}" >x</a>
+                        {% endif %}
+                    </div>
+                    {% for sub_category in category.sub_categories %}
+                        <div class="sub-category background-dark">
+                            <div class="img-container">
+                                <img src="{{ url_for('static', filename='img/sprite.svg') }}" alt="sprite" class="sprite">
+                            </div>
+                            <div class="info">
+                                <p class="title text-lg">
+                                    <a href="{{ url_for('threads', category_title=category.title, sub_category_id=sub_category.id) }}">{{ sub_category.title }}</a>
+                                </p>
+                                <p class="description text-sm">
+                                    {{ sub_category.desc }}
+                                </p>
+                            </div>
+                            {% if current_user.is_authenticated and current_user.permission_level >= 100 %}
+                                <a href="{{ url_for('delete_sub_category',category_id=category.id, sub_category_id=sub_category.id) }}">delete sub</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% if current_user.is_authenticated and current_user.permission_level >= 100 %}
+                        <a class="add-button text-md2" href="{{ url_for('add_sub_category', category_id=category.id) }}">+ Add Sub-Category</a>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <section class="">
+        <div class="content-container">
+            <div class="thread-header text-md">
+            </div>
+            {% for post in posts %}
+                <div class="post">
+                    <div class="post-header text-md3">
+                        {{ post.pub_date.strftime('%d-%m-%Y - %H:%M') }}
+                        <span>#{{ loop.index }}</span>
+                    </div>
+                    <div class="post-body">
+                        <div class="poster-info background-dark2">
+                            <a class="text-md2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+                            <p>user badge</p>
+                            <img src="{{ url_for('static', filename='img/') }}{{ post.author.profile_pic }}" alt="profile pic">
+                        </div>
+                        <div class="post-main grid-item background-dark">
+                            <div class="post-title text-md">
+                                <p>{{ post.title }}</p>
+                            </div>
+                            <div class="post-content text-md3">
+                                <p>{{ post.body|safe }}</p>
+                            </div>
+                            {% if post.author.post_signature %}
+                                <div class="user-signature">
+                                    <p>{{ post.author.post_signature }}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        <a href="">Quote</a>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="add-button text-md2">
+                <a  href="{{ url_for('new_post', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id) }}">Reply</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

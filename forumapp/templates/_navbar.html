@@ -1,0 +1,29 @@
+<div class="navbar">
+    {% if current_user.is_authenticated %}
+        <p>Hello {{ current_user.username }}</p>
+    {% endif %}
+    <ul>
+        {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('logout') }}">Log out</a></li>
+        {% else %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+<div class="navigation text-md2">
+    <img src="{{ url_for('static', filename='img/navbit-home.jpg') }}" alt="">
+    <a href="{{ url_for('home') }}">Home</a>
+    {% if sub_category %}
+        <img src="{{ url_for('static', filename='img/navbit-arrow-right.jpg') }}" alt="">
+        <a href="">{{ sub_category.title }}</a>
+    {% endif %}
+
+    {% if thread %}
+        <img src="{{ url_for('static', filename='img/navbit-arrow-right.jpg') }}" alt="">
+        <a href="{{ url_for('threads', category_title=category_title, sub_category_id=sub_category_id) }}">{{thread.parent.title}}</a>
+        <img src="{{ url_for('static', filename='img/navbit-arrow-right.jpg') }}" alt="">
+        <a href="#">{{thread.title}}</a>
+    {% endif %}
+</div>
