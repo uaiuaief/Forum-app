@@ -28,7 +28,6 @@ def delete_recursively(obj):
 
 
 def sanitize_html(text):
-<<<<<<< HEAD
     allowed_tags = [
         'img', '/img',
         'url', '/url',
@@ -49,16 +48,7 @@ def sanitize_html(text):
 
     # text = text.replace('"', '&quot')
     # text = text.replace("'", '&#39')
-=======
-    allowed_tags = ['img', '/img', 'strong', '/strong']
 
-    # pattern = re.compile(r'<.*?>(.*?)<.*?>')
-    pattern = re.compile(r'<(.*?)>(.*?)<(.*?)>')
-    matches = pattern.finditer(text)
-
-    text = text.replace('"', '&quot')
-    text = text.replace("'", '&#39')
->>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
     text = text.replace('<', '&lt')
     text = text.replace('>', '&gt')
 
@@ -69,7 +59,7 @@ def sanitize_html(text):
 
         if (open_tag in allowed_tags) and (close_tag in allowed_tags):
             if open_tag == 'img' and close_tag == '/img':
-<<<<<<< HEAD
+
                 text = text.replace(f'&lt{open_tag}&gt{between_tags}&lt{close_tag}&gt', f'<img class="rendered" src="{between_tags}" alt="img">')
 
             elif open_tag == 'url' and close_tag == '/url':
@@ -89,19 +79,11 @@ def sanitize_html(text):
 
             else:
                 text = text.replace(f'&lt{open_tag}&gt{between_tags}&lt{close_tag}&gt', f'<{open_tag} class="rendered">{between_tags}<{close_tag}>')
-=======
-                text = text.replace(f'&lt{open_tag}&gt{between_tags}&lt{close_tag}&gt', f'<img src="{between_tags}" alt="img">')
-            else:
-                text = text.replace(f'&lt{open_tag}&gt{between_tags}&lt{close_tag}&gt', f'<{open_tag}>{between_tags}<{close_tag}>')
->>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
+
 
     return text
 
 
-<<<<<<< HEAD
 def render_quote(text):
     text = f'<quote>{text}</quote>'
     return text
-=======
-
->>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
