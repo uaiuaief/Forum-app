@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+    <section>
+        <div class="content-container">
+            <a class="add-button text-md2" href="{{url_for('new_thread', category_title=category_title, sub_category_id=sub_category_id)}}">+ New Thread</a>
+
+            <div class="posts-header text-md">
+                Título / Autor do Tópico - Repostas / Visualizações - Último post por
+            </div>
+            {% for thread in threads %}
+                <div class="thread background-dark">
+                    <div class="img-container">
+                        <img src="{{ url_for('static', filename='img/thread-sprite.svg') }}" alt="sprite" class="sprite">
+                    </div>
+                    <div class="info column-1">
+                        <p class="title text-md2"><a href="{{ url_for('thread',category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id) }}">{{thread.title}}</a></p>
+                        <span class="description post-info text-sm">
+                            Iniciado por
+                            <a class="user" href="{{ url_for('user_posts', username=thread.author.username) }}">
+                                 {{ thread.author.username }},
+                            </a>
+                                {{ thread.pub_date.strftime('%H:%M, %d-%m-%Y') }}
+                        </span>
+                    </div>
+                    <div class="column-2 text-md3 description">
+                        <p>Respostas: {{ len(thread.posts) }}</p>
+                        Visualizações: Todo
+                    </div>
+                    <div class="column-3 text-md3 description">
+                        <p>{{ thread.posts[-1].author.username }}</p>
+                        {{ thread.posts[-1].pub_date.strftime('%d-%m-%Y, %H:%M') }}
+                    </div>
+                    {% if current_user.is_authenticated and (current_user == thread.author or current_user.permission_level >= 100) %}
+                        <a href="{{ url_for('delete_thread', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id) }}">delete</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock content %}

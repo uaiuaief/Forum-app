@@ -1,0 +1,313 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration:none;
+}
+
+body {
+	background: url(img/background1.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+
+
+/* text */
+.text-lg {
+	font: bold 16px Tahoma,Calibri,Verdana,Geneva,sans-serif;
+}
+
+.text-md {
+	font:bold 12px Arial,Tahoma,Calibri,Verdana,Geneva,sans-serif;
+}
+
+.text-md2 {
+	font:bold 14px Arial,Tahoma,Calibri,Verdana,Geneva,sans-serif;
+}
+
+.text-sm {
+	font: 12px Tahoma,Calibri,Verdana,Geneva,sans-serif;
+}
+
+.text-md3 {
+	font: 13px Verdana,Arial,Tahoma,Calibri,Geneva,sans-serif;
+}
+
+.title a {
+	color:#fff;
+}
+
+.title a:hover {
+	text-decoration: underline #fff;
+}
+/* endtext */
+
+
+
+.background-dark {
+	background-color: #314977;
+}
+.background-dark2 {
+	background-color: #283c60;
+}
+.background-light {
+	background-color: #b1c6ef;
+}
+
+.main-container {
+	width: 75%;
+	min-height: 100vh;
+	margin: auto;
+	margin-top: 20px;
+	background-color: rgba(32, 52, 89, .7);
+	border-radius: 5px;
+}
+
+.navigation {
+	padding: 1em;
+}
+
+.navigation a {
+	text-decoration: none;
+	color:#203459;
+	color: #fff;
+	background-color: #f6627d;
+	border-radius: 5px;
+	padding: 0.2em .5em;
+}
+
+.content-container {
+	margin: 0 1em;
+}
+
+.img-container {
+	display: inline-block;
+	overflow: hidden;
+}
+
+.navbar {
+	background-color: #f6627d;
+	opacity: .6;
+}
+
+
+
+/* Category */
+.category {
+	border: #333;
+}
+
+.category-header{
+	position: relative;
+	background-color: #333;
+	text-decoration: none;
+	text-align: left;
+	padding: .5em;
+	overflow: hidden;
+}
+
+.category-header a {
+	color: #fff;
+	background-color: #333;
+	text-decoration: none;
+	text-align: left;
+	padding: .5em;
+}
+
+.category-title:hover {
+	text-decoration: underline #fff;
+}
+
+.button-close {
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 1em;
+	top: 0%;
+}
+
+.button-close:hover {
+	color: red;
+}
+
+/* end category */
+
+
+
+/* Sub Category */
+.sub-category {
+	padding: 1em;
+	min-height: 50px;
+	text-align: left;
+	margin-bottom: 3px;
+	display: flex;
+}
+
+.sub-category .title a:hover {
+	text-decoration: underline #fff;
+}
+
+.sub-category .title a {
+	text-decoration: none;
+	color: #f3f3f3;
+}
+
+
+.sub-category .description {
+	color: #ddd;
+	padding-top: .7em;
+}
+
+.sub-category img, .thread img{
+	float: left;
+	width: 50px;
+	padding: 0 0 0 .5em;
+}
+
+.sub-category .info {
+	padding-left: 1em;
+}
+
+/* end sub category */
+
+
+
+/* Threads from a sub-category */
+.thread {
+	border-bottom: 1px #8fa1c4 solid;
+	min-height: 50px;
+	padding: .3em;
+	display: flex;
+}
+
+.thread .info {
+	padding-left: 1em;
+}
+
+.thread .title {
+	text-align: left;
+}
+
+.thread {
+	display: flex;
+}
+
+.thread .column-1 {
+	flex-grow: 5;
+}
+
+.thread .column-2, .thread .column-3 {
+	flex-grow: 1;
+}	
+
+.thread .description {
+	color: #ddd;
+}
+
+.post-info a {
+	color: #ddd;
+}
+
+.post-info .user:hover{
+	color: red;
+}
+
+.posts-header, .posts-header a {
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	padding: .5em 0;
+}
+
+.add-button {
+	text-align:left;
+	padding: .5em .8em;;
+	background-color: #314977;
+	display: inline-block;
+	border-radius: 20px;
+	margin: .5em 0;
+	color: #fff;
+}
+
+.add-button:hover {
+	background-color: #476aaa;
+}
+
+.add-button a {
+	text-decoration: none;
+	color: #fff;
+}
+/* end all threads from each sub-category */
+
+
+
+/* Post */
+.post {
+	margin-bottom: 2em;
+}
+
+.post-body {
+	display:grid;
+	grid-template-columns: 1fr 4fr;
+}
+
+.post-content p {
+	white-space: pre-wrap;
+}
+
+.post-title {
+	width: 97%;
+	margin: auto;
+	border-bottom: 1px solid #000;
+	padding: 0.5em;
+	color: #fff;
+}
+
+.user-signature {
+	padding: 0.5em;
+}
+
+.post-header, .post-footer {
+	background-color: #444;
+	color: #ddd;
+	display: block;
+	padding: .4em .6em;
+}
+
+.post-content {
+	border-bottom: solid 1px #3e598e;
+	padding: 1rem;
+	color: #fff;
+}
+
+.poster-info {
+	border-right: 1px solid #3e598e;
+	padding: 1rem;
+}
+
+.poster-info a {
+	color: #fff;
+}
+
+.poster-info img {
+	max-width: 100%;
+}
+/* End Post */
+
+
+
+/* Rendered html */
+code.rendered {
+	background-color: #000;
+	color: #ccc;
+}
+
+img.rendered {
+	max-width: 100%;
+}
+
+/* END rendered */
+
