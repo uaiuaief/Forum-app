@@ -1,8 +1,10 @@
+
 from flask import url_for, render_template, redirect, abort, flash, session
 from flask_login import login_user, current_user, logout_user, login_required
 
 from forumapp import app, db, login_manager
 from forumapp.utils import delete_recursively, sanitize_html, render_quote
+
 from .models.forms import LoginForm, RegistrationForm, ThreadForm, CategoryForm, SubCategoryForm, ThreadReplyForm
 from .models.models import User, Post, Thread, Category, SubCategory
 
@@ -60,6 +62,7 @@ def threads(category_title, sub_category_id):
     sub = SubCategory.query.filter_by(id=sub_category_id).first()
     category_threads = Thread.query.filter_by(parent_id=sub_category_id).all()
 
+
     variables = {
         'threads': category_threads,
         'sub_category_id': sub_category_id,
@@ -83,6 +86,7 @@ def new_thread(category_title, sub_category_id):
     if form.validate_on_submit():
         title = form.title.data
         body = form.body.data
+
         author_id = current_user.id
         td = Thread(title=title, author_id=author_id, parent_id=sub_category_id)
         db.session.add(td)
@@ -147,6 +151,7 @@ def new_post(category_title, sub_category_id, thread_id):
         session['quote'] = None
     if form.validate_on_submit():
         text = form.body.data
+
         author_id = current_user.id
         post = Post(title='Post reply', body=text, author_id=author_id, thread_id=thread_id)
         db.session.add(post)
@@ -162,6 +167,7 @@ def new_post(category_title, sub_category_id, thread_id):
 
         # return redirect(url_for('thread', category_title=category_title, sub_category_id=sub_category_id,
         #                         thread_id=thread_id))
+
 
     return render_template('new_post.html', thread_id=thread_id, form=form)
 
@@ -196,7 +202,6 @@ def edit_post(category_title, sub_category_id, thread_id, post_id):
         
     '''
 
-
 @app.route('/<string:category_title>/<int:sub_category_id>/threads/<int:thread_id>')
 def thread(category_title, sub_category_id, thread_id):
     td = Thread.query.filter_by(id=thread_id).first()
@@ -216,6 +221,7 @@ def thread(category_title, sub_category_id, thread_id):
     #                        thread=td, posts=posts, sanitize_html=sanitize_html)
 
 
+
 @app.route('/<string:category_title>/<int:sub_category_id>/threads/<int:thread_id>/remove')
 @login_required
 def delete_thread(category_title, sub_category_id, thread_id):
@@ -226,6 +232,7 @@ def delete_thread(category_title, sub_category_id, thread_id):
         abort(302)
 
     delete_recursively(td)
+
     return redirect(url_for('threads', category_title=category_title, sub_category_id=sub_category_id))
 
 
@@ -238,6 +245,7 @@ def delete_category(category_title):
     ct = Category.query.filter_by(title=category_title).first()
 
     delete_recursively(ct)
+
     return redirect(url_for('home'))
 
 
@@ -250,6 +258,7 @@ def delete_sub_category(sub_category_id, category_id):
     sub = SubCategory.query.filter_by(id=sub_category_id).first()
 
     delete_recursively(sub)
+
     return redirect(url_for('home'))
 
 

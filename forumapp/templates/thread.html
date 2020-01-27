@@ -21,7 +21,11 @@
                                 <p>{{ post.title }}</p>
                             </div>
                             <div class="post-content text-md3">
+<<<<<<< HEAD
                                 <p>{{ sanitize_html(post.body)|safe }}</p>
+=======
+                                <p>{{ post.body|safe }}</p>
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
                             </div>
                             {% if post.author.post_signature %}
                                 <div class="user-signature">
@@ -31,8 +35,12 @@
                         </div>
                     </div>
                     <div class="post-footer">
+<<<<<<< HEAD
                         <a href="{{ url_for('quote', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id, post_id=post.id) }}">Quote</a>
                         <a href="{{ url_for('edit_post', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id, post_id=post.id) }}">Edit</a>
+=======
+                        <a href="">Quote</a>
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
                     </div>
                 </div>
             {% endfor %}

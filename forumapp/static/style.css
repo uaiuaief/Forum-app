@@ -13,8 +13,11 @@ body {
 	background-size: cover;
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 /* text */
 .text-lg {
 	font: bold 16px Tahoma,Calibri,Verdana,Geneva,sans-serif;
@@ -45,8 +48,11 @@ body {
 }
 /* endtext */
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 .background-dark {
 	background-color: #314977;
 }
@@ -71,6 +77,10 @@ body {
 }
 
 .navigation a {
+<<<<<<< HEAD
+=======
+	letter-spacing: .05em;
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 	text-decoration: none;
 	color:#203459;
 	color: #fff;
@@ -93,8 +103,11 @@ body {
 	opacity: .6;
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 /* Category */
 .category {
 	border: #333;
@@ -135,8 +148,11 @@ body {
 
 /* end category */
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 /* Sub Category */
 .sub-category {
 	padding: 1em;
@@ -164,7 +180,10 @@ body {
 .sub-category img, .thread img{
 	float: left;
 	width: 50px;
+<<<<<<< HEAD
 	padding: 0 0 0 .5em;
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 }
 
 .sub-category .info {
@@ -173,13 +192,20 @@ body {
 
 /* end sub category */
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 /* Threads from a sub-category */
 .thread {
 	border-bottom: 1px #8fa1c4 solid;
 	min-height: 50px;
+<<<<<<< HEAD
 	padding: .3em;
+=======
+	padding: 1em;
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 	display: flex;
 }
 
@@ -195,6 +221,7 @@ body {
 	display: flex;
 }
 
+<<<<<<< HEAD
 .thread .column-1 {
 	flex-grow: 5;
 }
@@ -203,6 +230,8 @@ body {
 	flex-grow: 1;
 }	
 
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 .thread .description {
 	color: #ddd;
 }
@@ -242,8 +271,11 @@ body {
 }
 /* end all threads from each sub-category */
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
 /* Post */
 .post {
 	margin-bottom: 2em;
@@ -299,6 +331,7 @@ body {
 
 
 
+<<<<<<< HEAD
 /* Rendered html */
 code.rendered {
 	background-color: #000;
@@ -311,3 +344,5 @@ img.rendered {
 
 /* END rendered */
 
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499

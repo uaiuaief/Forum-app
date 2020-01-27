@@ -12,8 +12,13 @@
                     <div class="img-container">
                         <img src="{{ url_for('static', filename='img/thread-sprite.svg') }}" alt="sprite" class="sprite">
                     </div>
+<<<<<<< HEAD
                     <div class="info column-1">
                         <p class="title text-md2"><a href="{{ url_for('thread',category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id) }}">{{thread.title}}</a></p>
+=======
+                    <div class="info">
+                        <p class="title text-lg"><a href="{{ url_for('thread',category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id) }}">{{thread.title}}</a></p>
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
                         <span class="description post-info text-sm">
                             Iniciado por
                             <a class="user" href="{{ url_for('user_posts', username=thread.author.username) }}">
@@ -22,6 +27,7 @@
                                 {{ thread.pub_date.strftime('%H:%M, %d-%m-%Y') }}
                         </span>
                     </div>
+<<<<<<< HEAD
                     <div class="column-2 text-md3 description">
                         <p>Respostas: {{ len(thread.posts) }}</p>
                         Visualizações: Todo
@@ -30,6 +36,8 @@
                         <p>{{ thread.posts[-1].author.username }}</p>
                         {{ thread.posts[-1].pub_date.strftime('%d-%m-%Y, %H:%M') }}
                     </div>
+=======
+>>>>>>> 6e9c2c58feef0726d349a8ad1564375e5fbc8499
                     {% if current_user.is_authenticated and (current_user == thread.author or current_user.permission_level >= 100) %}
                         <a href="{{ url_for('delete_thread', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id) }}">delete</a>
                     {% endif %}
