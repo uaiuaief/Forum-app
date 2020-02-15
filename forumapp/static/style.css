@@ -5,13 +5,33 @@
 
 a {
 	text-decoration:none;
+	outline: none;
 }
 
 body {
 	background: url(img/background1.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
+	background-attachment: fixed;
 }
+
+/* logo */
+.logo-container {
+	width: 75%;
+	margin: auto;
+}
+
+.logo {
+	text-align: center;
+	font-family: 'VT323', monospace;
+	font-size: 60px;
+	color: #eee;
+	padding: .3rem;
+	background-color: rgba(0,0,0,.8);
+}
+
+/* end logo */
+
 
 
 
@@ -61,9 +81,9 @@ body {
 	width: 75%;
 	min-height: 100vh;
 	margin: auto;
-	margin-top: 20px;
-	background-color: rgba(32, 52, 89, .7);
-	border-radius: 5px;
+	/*background-color: rgba(32, 52, 89, .7);*/
+	background-color: rgba(0, 0 ,0, .8);
+	/*border-radius: 5px;*/
 }
 
 .navigation {
@@ -88,12 +108,33 @@ body {
 	overflow: hidden;
 }
 
-.navbar {
-	background-color: #f6627d;
-	opacity: .6;
+.greetings {
+	flex-grow: 2;
 }
 
+.greetings *{
+	font-family: "Ubuntu Mono";
+	font-size: 28px;
+	color: #fff;
+}
 
+.greetings a:hover {
+	color: #bbb;
+}
+
+.navbar {
+	width: 75%;
+	margin: auto;
+	background-color: rgba(0,0,0,.8);
+}
+
+.navbar p {
+	padding: .3em;
+}
+
+.navbar li {
+	list-style: none;
+}
 
 /* Category */
 .category {
@@ -121,11 +162,13 @@ body {
 	text-decoration: underline #fff;
 }
 
-.button-close {
-	margin: 0;
-	padding: 0;
+.right-corner {
 	position: absolute;
+	top: .4em;
 	right: 1em;
+}
+
+.button-close {
 	top: 0%;
 }
 
@@ -270,17 +313,39 @@ body {
 	padding: 0.5em;
 }
 
+.edit-date {
+	font-style: italic;
+	color: #ccc;
+	padding: .5em;
+	bottom: 0%;
+	position: absolute;
+}
+
 .post-header, .post-footer {
-	background-color: #444;
+	background-color: #333;
 	color: #ddd;
 	display: block;
 	padding: .4em .6em;
+	position: relative;
+}
+
+.post-footer a {
+	color: #fff;
+}
+
+.post-footer a:hover {
+	color: #ddd;
 }
 
 .post-content {
-	border-bottom: solid 1px #3e598e;
 	padding: 1rem;
 	color: #fff;
+}
+
+.after-content {
+	border-bottom: solid 1px #3e598e;
+	min-height: 50px;
+	position: relative;
 }
 
 .poster-info {
@@ -310,4 +375,49 @@ img.rendered {
 }
 
 /* END rendered */
+
+
+
+fieldset {
+	border: none;
+}
+
+
+
+
+
+
+
+
+.login-bar {
+	display: flex;
+	position: relative;
+	justify-content: space-between;
+}
+
+.fields-wrapper {
+	flex-grow: 1;
+}
+
+.login-bar .fields {
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.login-bar input {
+	border: 0;
+	padding: .2em;
+	font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
 

@@ -17,9 +17,7 @@
 
                         <span class="description post-info text-sm">
                             Iniciado por
-                            <a class="user" href="{{ url_for('user_posts', username=thread.author.username) }}">
-                                 {{ thread.author.username }},
-                            </a>
+                            <a class="user" href="{{ url_for('user_posts', username=thread.author.username) }}">{{ thread.author.username }}</a>,
                                 {{ thread.pub_date.strftime('%H:%M, %d-%m-%Y') }}
                         </span>
                     </div>

@@ -1,10 +1,8 @@
-
-from flask import url_for, render_template, redirect, abort, flash, session
+from datetime import datetime
+from flask import url_for, render_template, redirect, abort, flash, session, request
 from flask_login import login_user, current_user, logout_user, login_required
-
 from forumapp import app, db, login_manager
 from forumapp.utils import delete_recursively, sanitize_html, render_quote
-
 from .models.forms import LoginForm, RegistrationForm, ThreadForm, CategoryForm, SubCategoryForm, ThreadReplyForm
 from .models.models import User, Post, Thread, Category, SubCategory
 
@@ -92,6 +90,7 @@ def new_thread(category_title, sub_category_id):
         db.session.add(td)
         db.session.commit()
 
+        # TODO
         ''' Solução terrível, se um post tiver o mesmo titulo e o mesmo autor 
         ele pode acabar indo parar na thread errada'''
 
@@ -146,12 +145,11 @@ def new_post(category_title, sub_category_id, thread_id):
         return redirect(url_for('login'))
 
     form = ThreadReplyForm()
-    if session['quote']:
+    if session.get('quote', False):
         form.body.process_data(session['quote'])
         session['quote'] = None
     if form.validate_on_submit():
         text = form.body.data
-
         author_id = current_user.id
         post = Post(title='Post reply', body=text, author_id=author_id, thread_id=thread_id)
         db.session.add(post)
@@ -167,7 +165,6 @@ def new_post(category_title, sub_category_id, thread_id):
 
         # return redirect(url_for('thread', category_title=category_title, sub_category_id=sub_category_id,
         #                         thread_id=thread_id))
-
 
     return render_template('new_post.html', thread_id=thread_id, form=form)
 
@@ -190,29 +187,41 @@ def quote(category_title, sub_category_id, thread_id, post_id):
     #                         thread_id=thread_id))
 
 
-@app.route('/<string:category_title>/<int:sub_category_id>/threads/<int:thread_id>/quote/<int:post_id>')
+@app.route('/<string:category_title>/<int:sub_category_id>/threads/<int:thread_id>/edit/<int:post_id>', methods=['GET', 'POST'])
 def edit_post(category_title, sub_category_id, thread_id, post_id):
-    post = Post.query.filter_by(id=post_id)
+    form = ThreadReplyForm()
+    post = Post.query.filter_by(id=post_id).first()
+    if request.method == 'GET':
+        form.body.process_data(post.body)
+    if form.validate_on_submit():
+        post.body = form.body.data
+        post.edit_date = datetime.utcnow()
+        db.session.commit()
 
-    '''
-        form here blablabla
-        aasdasdas
-        das
-        dbads
-        
-    '''
+        variables = {
+            'category_title': category_title,
+            'sub_category_id': sub_category_id,
+            'thread_id': thread_id
+        }
+
+        return redirect(url_for('thread', **variables))
+
+    return render_template('new_post.html', form=form)
+
 
 @app.route('/<string:category_title>/<int:sub_category_id>/threads/<int:thread_id>')
 def thread(category_title, sub_category_id, thread_id):
     td = Thread.query.filter_by(id=thread_id).first()
     posts = td.posts
+    quote_form = ThreadReplyForm()
 
     variables = {
         'category_title': category_title,
         'sub_category_id': sub_category_id,
         'thread': td,
         'posts': posts,
-        'sanitize_html': sanitize_html
+        'sanitize_html': sanitize_html,
+        'form': quote_form,
     }
 
     return render_template('thread.html', **variables)
@@ -221,6 +230,24 @@ def thread(category_title, sub_category_id, thread_id):
     #                        thread=td, posts=posts, sanitize_html=sanitize_html)
 
 
+@app.route('/<string:category_title>/<int:sub_category_id>/threads/<int:thread_id>/delete/<int:post_id>')
+def delete_post(category_title, sub_category_id, thread_id, post_id):
+    post = Post.query.filter_by(id=post_id).first()
+    td = post.thread
+
+    variables = {
+        'category_title': category_title,
+        'sub_category_id': sub_category_id
+    }
+
+    if post == td.posts[0]:
+        delete_recursively(td)
+        return redirect(url_for('threads', **variables))
+    else:
+        variables['thread_id'] = thread_id
+        delete_recursively(post)
+        return redirect(url_for('thread', **variables))
+
 
 @app.route('/<string:category_title>/<int:sub_category_id>/threads/<int:thread_id>/remove')
 @login_required
@@ -228,7 +255,8 @@ def delete_thread(category_title, sub_category_id, thread_id):
     td = Thread.query.filter_by(id=thread_id).first()
 
     thread_author = td.author.username
-    if current_user.username != thread_author:
+    authorized_users = [thread_author, 'admin']
+    if current_user.username not in authorized_users:
         abort(302)
 
     delete_recursively(td)
@@ -269,3 +297,25 @@ def user_posts(username):
 
     return render_template('user_posts.html', posts=posts)
 
+
+@app.route('/profile/<string:username>')
+def user_page(username):
+    user = User.query.filter_by(username=username).first()
+    posts = Post.query.filter_by(author=user).all()
+
+    return render_template('profile_page.html', posts=posts)
+
+
+# Javascript routes
+@app.route('/ajax/quote')
+def ajax_quote():
+    post_id = request.args['post']
+    body = Post.query.filter_by(id=post_id).first().body
+    body = f'<quote>{body}</quote>\n'
+    return body
+
+
+@app.route('/ajax/reply', methods=['GET', 'POST'])
+def ajax_reply():
+    form = ThreadReplyForm()
+    return form.body

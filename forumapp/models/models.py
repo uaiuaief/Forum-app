@@ -1,4 +1,4 @@
-from forumapp.forum_app import db
+from run import db
 from datetime import datetime
 from flask_login import UserMixin
 
@@ -56,9 +56,11 @@ class Post(db.Model):
     title = db.Column(db.String(80), nullable=False)
     body = db.Column(db.Text, nullable=False)
     pub_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    edit_date = db.Column(db.DateTime, default=None)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'))
 
     def __repr__(self):
         return f'Post (title: {self.title} author: {self.author})'
+
 

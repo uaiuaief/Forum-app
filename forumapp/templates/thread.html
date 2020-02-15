@@ -8,7 +8,7 @@
                 <div class="post">
                     <div class="post-header text-md3">
                         {{ post.pub_date.strftime('%d-%m-%Y - %H:%M') }}
-                        <span>#{{ loop.index }}</span>
+                        <span class="right-corner">#{{ loop.index }}</span>
                     </div>
                     <div class="post-body">
                         <div class="poster-info background-dark2">
@@ -25,6 +25,11 @@
                                 <p>{{ sanitize_html(post.body)|safe }}</p>
 
                             </div>
+                            <div class="after-content">
+                                {% if post.edit_date %}
+                                    <p class="edit-date text-sm">Última edição por {{ post.author.username }}: {{ post.edit_date.strftime('%d-%m-%Y às %H:%M') }}</p>
+                                {% endif %}
+                            </div>
                             {% if post.author.post_signature %}
                                 <div class="user-signature">
                                     <p>{{ post.author.post_signature }}</p>
@@ -32,17 +37,43 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="post-footer">
-
-                        <a href="{{ url_for('quote', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id, post_id=post.id) }}">Quote</a>
+                    <div class="post-footer text-md">
+                        <a class="right-corner quote-btn" id="post-{{ post.id }}" href="{{ url_for('quote', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id, post_id=post.id) }}">Quote</a>
                         <a href="{{ url_for('edit_post', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id, post_id=post.id) }}">Edit</a>
-
+                        <a href="{{ url_for('delete_post', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id, post_id=post.id) }}">Delete</a>
                     </div>
+
+                    <div style="display:none" class="reply-box">
+                        {{ form.body.label }}
+                        <form method="POST" action="./{{ post.thread_id }}/new_post">
+                            {{ form.hidden_tag() }}
+                            <fieldset class="form-group">
+                                <div class="form-group">
+                                    {% if form.body.errors %}
+                                        {{ form.body(cols="158", rows="7", class="form-control form-control-lg is-invalid", id="body-"~post.id) }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.body.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.body(cols="158", rows="7", class="form-control form-control-lg is-invalid", id="body-"~post.id) }}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.submit(class="post-btn", id="submit-"~post.id) }}
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+
                 </div>
             {% endfor %}
             <div class="add-button text-md2">
                 <a  href="{{ url_for('new_post', category_title=category_title, sub_category_id=sub_category_id, thread_id=thread.id) }}">Reply</a>
+
             </div>
+            <button id="ajax-button">Click</button>
         </div>
     </section>
 

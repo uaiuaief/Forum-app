@@ -11,7 +11,7 @@
                     <div class="category-header text-md">
                         <a class="category-title" href="#{{ category.title }}" id="{{ category.title }}">{{ category.title }}</a>
                         {% if current_user.is_authenticated and current_user.permission_level >= 100 %}
-                            <a class="button-close" href="{{ url_for('delete_category', category_title=category.title) }}" >x</a>
+                            <a class="button-close right-corner" href="{{ url_for('delete_category', category_title=category.title) }}" >x</a>
                         {% endif %}
                     </div>
                     {% for sub_category in category.sub_categories %}
