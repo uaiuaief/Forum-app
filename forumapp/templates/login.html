@@ -3,12 +3,12 @@
 
     <form method="POST" action="/login">
         {{ form.hidden_tag() }}
-        <fieldset class="form-group">
-            <div class="form-group">
+        <fieldset class="form-group text-md2">
+            <div class="block-row">
                 {{ form.username.label }}
                 {% if form.username.errors %}
                     {{ form.username(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback text-sm">
                         {% for error in form.username.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
@@ -17,11 +17,11 @@
                     {{ form.username(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
-            <div class="form-group">
+            <div class="block-row">
                 {{ form.password.label }}
                 {% if form.password.errors %}
                     {{ form.password(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
+                    <div class="invalid-feedback text-sm">
                         {% for error in form.password.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
@@ -30,7 +30,7 @@
                     {{ form.password(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
-            <div class="form-group">
+            <div class="block-row-submit">
                 {{ form.submit }}
             </div>
         </fieldset>

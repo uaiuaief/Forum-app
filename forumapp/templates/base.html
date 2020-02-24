@@ -9,12 +9,42 @@
 
     <link href="https://fonts.googleapis.com/css?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     {% block head %}{% endblock head %}
 </head>
 <body>
     <div class="cover">
-        <div class="logo-container">
-            <a href="/"><h1 class="logo">--CYPHERPUNK FORUM</h1></a>
+        <div class="top-wrapper">
+            <div class="logo-container">
+                <a href="/"><h1 class="logo">--CYPHERPUNK FORUM</h1></a>
+            </div>
+            <div class="login-bar">
+                {% if current_user.is_authenticated %}
+                <div class="greetings">
+                    <p>~$ Hello <a href="{{ url_for('user_page', username=current_user.username) }}">{{ current_user.username }}</a></p>
+                </div>
+                <div class="fields-wrapper">
+                    <div class="fields">
+                        <a href="{{ url_for('logout') }}">Log Out</a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if not current_user.is_authenticated %}
+                <div class="fields-wrapper">
+                    <div class="fields">
+                        <form class="login-form" method="POST" action="{{ url_for('ajax_login') }}">
+                            <input size=7 type="text" name="user" value="Username">
+                            <input size=7 type="text" name="password" value="Password">
+                            <input class="login-btn" size=7 type="submit" value="Login">
+                        </form>
+                    </div>
+                </div>
+                <div class="register-link text-md2">
+                    <a href="{{ url_for('register') }}">Register</a>
+                </div>
+                {% endif %}
+            </div>
         </div>
         <div class="navbar">
             {% include "_navbar.html" %}

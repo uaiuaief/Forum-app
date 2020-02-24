@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, ValidationError
 from forumapp.models.models import User # CIRCULAR IMPORT
+from sqlalchemy import func
 
 
 class LoginForm(FlaskForm):
@@ -11,7 +12,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        user = User.query.filter(User.username.ilike(username.data)).first()
         if not user:
             raise ValidationError("That username doesn't exist or the password is incorrect")
 
@@ -22,7 +23,7 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
 
-    submit = SubmitField('Cadastrar')
+    submit = SubmitField('Register')
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()

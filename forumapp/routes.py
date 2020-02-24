@@ -5,6 +5,7 @@ from forumapp import app, db, login_manager
 from forumapp.utils import delete_recursively, sanitize_html, render_quote
 from .models.forms import LoginForm, RegistrationForm, ThreadForm, CategoryForm, SubCategoryForm, ThreadReplyForm
 from .models.models import User, Post, Thread, Category, SubCategory
+from sqlalchemy import desc
 
 
 @login_manager.user_loader
@@ -23,7 +24,7 @@ def home():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter(User.username.ilike(form.username.data)).first()
         password_is_correct = form.password.data == user.password
         if password_is_correct:
             login_user(user)
@@ -58,8 +59,8 @@ def register():
 def threads(category_title, sub_category_id):
     ct = Category.query.filter_by(title=category_title).first()
     sub = SubCategory.query.filter_by(id=sub_category_id).first()
-    category_threads = Thread.query.filter_by(parent_id=sub_category_id).all()
-
+    category_threads = Thread.query.filter_by(parent_id=sub_category_id)\
+        .join(Post, Thread.id == Post.thread_id).order_by(desc(Post.pub_date))
 
     variables = {
         'threads': category_threads,
@@ -90,12 +91,7 @@ def new_thread(category_title, sub_category_id):
         db.session.add(td)
         db.session.commit()
 
-        # TODO
-        ''' Solução terrível, se um post tiver o mesmo titulo e o mesmo autor 
-        ele pode acabar indo parar na thread errada'''
-
-        td_id = Thread.query.filter_by(title=title, author_id=author_id, parent_id=sub_category_id).first().id
-        post = Post(title=title, body=body, author_id=author_id, thread_id=td_id)
+        post = Post(title=title, body=body, author_id=author_id, thread_id=td.id)
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('threads', category_title=category_title, sub_category_id=sub_category_id))
@@ -191,6 +187,11 @@ def quote(category_title, sub_category_id, thread_id, post_id):
 def edit_post(category_title, sub_category_id, thread_id, post_id):
     form = ThreadReplyForm()
     post = Post.query.filter_by(id=post_id).first()
+
+    authorized_users = [post.author.username, 'admin']
+    if current_user.username not in authorized_users:
+        abort(302)
+
     if request.method == 'GET':
         form.body.process_data(post.body)
     if form.validate_on_submit():
@@ -234,6 +235,10 @@ def thread(category_title, sub_category_id, thread_id):
 def delete_post(category_title, sub_category_id, thread_id, post_id):
     post = Post.query.filter_by(id=post_id).first()
     td = post.thread
+
+    authorized_users = [post.author.username, 'admin']
+    if current_user.username not in authorized_users:
+        abort(302)
 
     variables = {
         'category_title': category_title,
@@ -319,3 +324,23 @@ def ajax_quote():
 def ajax_reply():
     form = ThreadReplyForm()
     return form.body
+
+
+@app.route('/ajax/login', methods=['POST'])
+def ajax_login():
+    username = request.form['user']
+    password = request.form['password']
+    user = User.query.filter(User.username.ilike(username)).first()
+    if user:
+        password_is_correct = password == user.password
+        if password_is_correct:
+            login_user(user)
+            return redirect(url_for('home'))
+    else:
+        flash('Password Incorrect')
+        return redirect((url_for('login')))
+
+
+
+
+

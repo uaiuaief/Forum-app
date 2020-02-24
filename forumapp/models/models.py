@@ -1,6 +1,6 @@
-from run import db
+from forumapp import db
 from datetime import datetime
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 
 
 class User(db.Model, UserMixin):
